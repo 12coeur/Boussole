@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boussole Asde Coeur</title>
+    <title>Boussole</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -15,76 +15,84 @@
             min-height: 100vh;
             padding-bottom: env(safe-area-inset-bottom);
         }
-        header, footer {
-            background-color: #8A2BE2;
-            color: white;
+        
+        header {
+            background-color: #b703e6;
+            color: black;
             text-align: center;
             padding: 10px;
         }
-        .orientation-container {
-            width: 90%;
-            margin: 20px auto;
-            text-align: center;
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .compass {
-    width: 400px;
-    height: 400px;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-image: url('compass-background.png'); /* Chemin de l'image */
-    background-size: cover; /* Ajuste l'image à la taille du conteneur */
-    background-position: center; /* Centre l'image */
-	
-}
-
-.compass-needle {
-    width: 400px;
-    height: 400px;
-    position: relative;
-    display: flex; /* je sais pas à quoi cela sert */
-    justify-content: center; /* je sais pas à quoi cela sert */
-    align-items: center;
-    background-image: url('compassNeedle.png');  /*  Chemin de l'image */
-    background-size: cover; /* Ajuste l'image à la taille du conteneur */
-    background-position: center; /* Centre l'image */  
-    top: 0%; /* Centrage vertical */
-    left: 50%;
- 
-}
-
-.orientation-info {
-    position: absolute;
-    top: 70%; /* Ajustez cette valeur si nécessaire */
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 16px;
-    color: black;
-    background-color: yellow;
-    padding: 5px;
-    text-align: center;
-    z-index: 1; /* Assure que le texte est au-dessus de l'image de fond */
-}
+        
         footer {
+            background-color: #b703e6;
+            color: black;
+            text-align: center;
+            padding: 10px;
             margin-top: auto;
-            background-color: #9370DB;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centre horizontalement */
+            justify-content: center; /* Centre verticalement */
+            flex-grow: 1; /* Prend l'espace disponible */
+        }
+
+        .compass-container {
+            position: relative;
+            width: 100%; /* Utilise toute la largeur disponible */
+            max-width: 450px; /* Taille maximale */
+            max-height: 60vh; /* Limite la hauteur à 60% de la hauteur de la fenêtre */
+            aspect-ratio: 1 / 1; /* Maintenir un ratio 1:1 */
+        }
+
+        .compass-background, .compass-needle {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+
+        .compass-background {
+            background-image: url('CompassBackground.png');
+        }
+
+        .compass-needle {
+            background-image: url('CompassNeedle.png');
+            transform-origin: center;
+        }
+
+        .angle-display {
+            padding: 10px;
+            background-color: yellow;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            border-radius: 5px;
+            max-width: 100%; /* Ajuste au conteneur parent */
+            margin: 10px 0 0; /* Espace en haut */
+            overflow-wrap: break-word; /* Gère le retour à la ligne pour les longs textes */
         }
     </style>
 </head>
 <body>
     <header><h1>Boussole Asde Coeur</h1></header>
-    <div class="orientation-container">
-        <div class="compass">
+  
+    <div class="main-content">
+        <div class="compass-container">
+            <div class="compass-background"></div>
             <div id="compass-needle" class="compass-needle"></div>
-            <div id="orientation-info" class="orientation-info">...</div>
         </div>
+        <div id="angle-display" class="angle-display">Déclinaison: --°</div>
     </div>
-    <footer>Second test API by JLH</footer>
+  
+    <footer>V2 ----------------------- by JLH</footer>
+
     <script src="orientation.js"></script>
 </body>
 </html>
