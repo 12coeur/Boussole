@@ -1,24 +1,34 @@
 window.onload = function() {
-    const compassNeedle = document.getElementById('compass-needle');
-    const orientationInfo = document.getElementById('orientation-info');
+    const compassNeedle = document.getElementById("compass-needle");
+    const angleDisplay = document.getElementById("angle-display");
 
-    if ('DeviceOrientationEvent' in window) {
-        window.addEventListener('deviceorientation', function(event) {
-            console.log('API DeviceOrientation accessible');
+    if ("AbsoluteOrientationSensor" in window) {
+        try {
+            const sensor = new AbsoluteOrientationSensor({ frequency: 10 });
 
-            // Récupérer uniquement la valeur de l'axe Z (alpha)
-            const alphaValue = event.alpha; // Rotation autour de l'axe z (0 à 360 degrés)
+            sensor.addEventListener("reading", () => {
+                let q = sensor.quaternion; // [x, y, z, w]
+                let angle = Math.atan2(2 * (q[3] * q[2] + q[0] * q[1]), 
+                                       1 - 2 * (q[1] * q[1] + q[2] * q[2])) * (180 / Math.PI);
 
-            // Mettre à jour l'aiguille de la boussole
-            if (alphaValue !== null) {
-                compassNeedle.style.transform = `translateX(-50%) rotate(${alphaValue}deg)`;
-            }
+                if (angle < 0) angle += 360; // Normalisation
 
-            // Afficher la valeur de l'axe Z sous l'aiguille
-            orientationInfo.textContent = `${alphaValue.toFixed(2)}°`;
-        });
+                // Rotation de l'aiguille
+                compassNeedle.style.transform = `rotate(${angle}deg)`;
+
+                // Mise à jour de l'affichage
+                angleDisplay.textContent = `Angle: ${angle.toFixed(2)}°`;
+            });
+
+            sensor.start();
+            console.log("Capteur démarré ✅");
+
+        } catch (e) {
+            console.error("❌ Erreur capteur :", e);
+            angleDisplay.textContent = "Capteur indisponible ❌";
+        }
     } else {
-        console.log('API DeviceOrientation non supportée par ce navigateur');
-        orientationInfo.textContent = "API non disponible";
+        console.warn("❌ AbsoluteOrientationSensor non supporté");
+        angleDisplay.textContent = "Capteur non supporté ❌";
     }
 };
