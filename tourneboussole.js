@@ -1,8 +1,7 @@
-// orientation.js modifié
 window.onload = function() {
     const compassNeedle = document.getElementById("compass-needle");
+    const compassAzimut = document.getElementById("compass-azimut");
     const angleDisplay = document.getElementById("angle-display");
-    const azimutBackground = document.getElementById("azimut-background");
 
     if ("AbsoluteOrientationSensor" in window) {
         try {
@@ -15,11 +14,14 @@ window.onload = function() {
                 if (angle < 0) angle += 360;
                 angle += declinaison;
 
+                // Rotation de l'aiguille dans le sens normal
                 compassNeedle.style.transform = `rotate(${angle}deg)`;
+                // Rotation de l'azimut dans le MÊME sens que l'aiguille (inversion de la version précédente)
+                compassAzimut.style.transform = `rotate(${angle}deg)`;
+
                 let displayedAngle = 360 - angle;
                 if (displayedAngle >= 360) displayedAngle -= 360;
                 angleDisplay.textContent = `${displayedAngle.toFixed(2)}°`;
-                updateAzimutBackground(displayedAngle);
                 
                 // Événement pour que NordF.html récupère l'angle
                 window.dispatchEvent(new CustomEvent("angle-updated", { detail: displayedAngle.toFixed(2) }));
@@ -33,17 +35,9 @@ window.onload = function() {
         console.warn("❌ AbsoluteOrientationSensor non supporté");
         angleDisplay.textContent = "Capteur non supporté ❌";
     }
-	
-
 
     window.addEventListener("angle-updated", function(event) {
         const angle = Math.round(event.detail);
-        document.getElementById("angle-display").textContent = `${angle}°`;
-        updateAzimutBackground(angle);
+        angleDisplay.textContent = `${angle}°`;
     });
-	
-	function updateAzimutBackground(angle) {
-    let translateX = -angle * 10; // 10 pixels par degré
-    azimutBackground.style.transform = `translateX(${translateX}px)`;
-}
 };

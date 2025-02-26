@@ -9,45 +9,40 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: skyblue;
+            background: url('arriereplan.png') no-repeat center center fixed;
+            background-size: cover;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
             padding-bottom: env(safe-area-inset-bottom);
         }
-        
+        header, footer {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 15px;
+            position: fixed; /* Fixe leur position */
+            width: 100%; /* Prend toute la largeur */
+            z-index: 3; /* Au-dessus de tout (angle-display a z-index: 2) */
+        }
         header {
-            background-color: #b703e6;
-            color: black;
-            text-align: center;
-            padding: 10px;
+            top: 0; /* Collé en haut */
         }
-        
         footer {
-            background-color: #b703e6;
-            color: black;
-            text-align: center;
-            padding: 10px;
-            margin-top: auto;
+            bottom: 0; /* Collé en bas */
         }
-
-        .main-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center; /* Centre horizontalement */
-            justify-content: center; /* Centre verticalement */
-            flex-grow: 1; /* Prend l'espace disponible */
-        }
-
         .compass-container {
             position: relative;
-            width: 100%; /* Utilise toute la largeur disponible */
-            max-width: 450px; /* Taille maximale */
-            max-height: 60vh; /* Limite la hauteur à 60% de la hauteur de la fenêtre */
-            aspect-ratio: 1 / 1; /* Maintenir un ratio 1:1 */
+            width: 100%; /* Remains at 100% of available width */
+            aspect-ratio: 1 / 1;
+            margin: 0 auto;
+            z-index: 1; /* Base level for compass */
         }
-
-        .compass-background, .compass-needle {
+        .compass-background, 
+        .compass-azimut,
+        .compass-mask,
+        .compass-needle {
             position: absolute;
             top: 0;
             left: 0;
@@ -57,42 +52,79 @@
             background-repeat: no-repeat;
             background-size: contain;
         }
-
         .compass-background {
             background-image: url('CompassBackground.png');
         }
-
+        .compass-azimut {
+            background-image: url('AzimutRond.png');
+            transform-origin: center;
+            width: 130%; /* Increased to 130% */
+            height: 130%; /* Increased to 130% */
+            left: -15%; /* Centering offset */
+            top: -15%; /* Centering offset */
+        }
+        .compass-mask {
+            background-image: url('MasqueAzimutRond.png');
+            width: 130%; /* Increased to 130% */
+            height: 130%; /* Increased to 130% */
+            left: -15%; /* Centering offset */
+            top: -15%; /* Centering offset */
+        }
         .compass-needle {
             background-image: url('CompassNeedle.png');
             transform-origin: center;
         }
-
-        .angle-display {
-            padding: 10px;
-            background-color: yellow;
-            font-size: 20px;
-            font-weight: bold;
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative; /* For relative positioning of children */
+        }
+        .angle-display-container {
+            width: 100%;
+            height: calc(100vw * 0.15);
+            position: absolute; /* Absolute for overlay */
             text-align: center;
-            border-radius: 5px;
-            max-width: 100%; /* Ajuste au conteneur parent */
-            margin: 10px 0 0; /* Espace en haut */
-            overflow-wrap: break-word; /* Gère le retour à la ligne pour les longs textes */
+            top: 70%; /* Shifted down 20% from center */
+            transform: translateY(-50%); /* Adjusts for precise centering */
+            z-index: 2; /* Above compass */
+        }
+        .angle-display-background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url('collimateur-fond.png');
+            background-size: cover;
+            background-position: center;
+            z-index: 1; /* Behind text but above compass */
+        }
+        .angle-display {
+            font-size: 32px;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 1);
+            position: relative;
+            z-index: 2; /* Text above its background */
+            line-height: calc(100vw * 0.17);
         }
     </style>
 </head>
 <body>
-    <header><h1>Boussole Asde Coeur</h1></header>
-  
+    <header><h1>Boussole Compas</h1></header>
     <div class="main-content">
         <div class="compass-container">
             <div class="compass-background"></div>
+            <div id="compass-azimut" class="compass-azimut"></div>
+            <div class="compass-mask"></div>
             <div id="compass-needle" class="compass-needle"></div>
         </div>
-        <div id="angle-display" class="angle-display">Déclinaison: --°</div>
+        <div class="angle-display-container">
+            <div class="angle-display-background"></div>
+            <div id="angle-display" class="angle-display">--°</div>
+        </div>
     </div>
-  
-    <footer>V2 ----------------------- by JLH</footer>
-
-    <script src="orientation.js"></script>
+    <footer>JLH***Steam Punk*** 12Coeur</footer>
+    <script src="tourneboussole.js"></script>
 </body>
 </html>
