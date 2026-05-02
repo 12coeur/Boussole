@@ -1,0 +1,13 @@
+{
+  "name": "Boussole ou compas",
+  "short_name": "Boussole",
+  "start_url": "index.html",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "images/icone.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
