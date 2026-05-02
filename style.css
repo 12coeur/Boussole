@@ -1,0 +1,116 @@
+ body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: url('arriereplan.png') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+header, footer {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 15px;
+    position: fixed;
+    width: 100%;
+    z-index: 3;
+}
+
+header {
+    top: 0;
+}
+
+footer {
+    bottom: 0;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.compass-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+    z-index: 1;
+}
+
+.compass-background, 
+.compass-azimut,
+.compass-mask,
+.compass-needle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.compass-background {
+    background-image: url('CompassBackground.png');
+}
+
+.compass-azimut {
+    background-image: url('AzimutRond.png');
+    transform-origin: center;
+    width: 130%;
+    height: 130%;
+    left: -15%;
+    top: -15%;
+}
+
+.compass-mask {
+    background-image: url('MasqueAzimutRond.png');
+    width: 130%;
+    height: 130%;
+    left: -15%;
+    top: -15%;
+}
+
+.compass-needle {
+    background-image: url('CompassNeedle.png');
+    transform-origin: center;
+}
+
+.angle-display-container {
+    width: 100%;
+    height: calc(100vw * 0.15);
+    position: absolute;
+    text-align: center;
+    top: 70%;
+    transform: translateY(-50%);
+    z-index: 2;
+}
+
+.angle-display-background {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url('collimateur-fond.png');
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+}
+
+.angle-display {
+    font-size: 32px;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 1);
+    position: relative;
+    z-index: 2;
+    line-height: calc(100vw * 0.17);
+}
